@@ -1,6 +1,7 @@
 package com
 
 import com.domain.wiseSaying.entity.WiseSaying
+import com.global.Request
 
 fun main() {
 
@@ -14,7 +15,9 @@ fun main() {
 
         val input = readlnOrNull() ?: ""
 
-        when(input) {
+        val rq = Request(input)
+
+        when(rq.actionName) {
             "종료" -> break;
             "등록" -> {
                 print("명언: ")
@@ -36,6 +39,17 @@ fun main() {
                         println("${wiseSaying.id} / ${wiseSaying.author} / ${wiseSaying.saying}")
                     }
                 }
+            }
+            "삭제" -> {
+                rq.getParam("id")?.let {
+                    it.toIntOrNull()?.let {
+                        wiseSayings.removeIf { wiseSaying -> wiseSaying.id == it }
+                        println("${it}번 명언이 삭제되었습니다.")
+                    } ?: println("번호를 입력해주세요")
+                } ?: println("입력을 제대로 해주세요")
+            }
+            else -> {
+                println("알수없는 명령입니다. 다시 입력해주세요.")
             }
         }
     }
