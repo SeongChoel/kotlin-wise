@@ -4,7 +4,7 @@ import com.domain.wiseSaying.entity.WiseSaying
 import com.global.Request
 
 class WiseSayingController(
-    var lastId : Int = 0,
+    var lastId: Int = 0,
 ) {
 
     val wiseSayings = mutableListOf<WiseSaying>()
@@ -12,7 +12,7 @@ class WiseSayingController(
     fun write() {
         print("명언: ")
         val saying = readlnOrNull() ?: ""
-        print ("작가: ")
+        print("작가: ")
         val author = readlnOrNull() ?: ""
         var id = ++lastId
         wiseSayings.add(WiseSaying(id, author, saying))
@@ -23,15 +23,15 @@ class WiseSayingController(
     fun list() {
         if (wiseSayings.count() == 0) {
             println("등록된 명언이 없습니다.")
-        }
-        else {
+        } else {
             println("번호 / 작가 / 명언")
             for (wiseSaying in wiseSayings.reversed()) {
                 println("${wiseSaying.id} / ${wiseSaying.author} / ${wiseSaying.saying}")
             }
         }
     }
-    fun delete(rq : Request) {
+
+    fun delete(rq: Request) {
         val id = rq.getParam("id")?.toIntOrNull()
 
         if (id == null) {
@@ -41,10 +41,46 @@ class WiseSayingController(
 
         val rst = wiseSayings.removeIf { saying -> saying.id == id }
 
-        if(rst) {
+        if (rst) {
             println("${id}번 명언을 삭제했습니다.")
         } else {
             println("${id}번 명언은 존재하지 않습니다.")
         }
     }
+
+    fun modify(rq: Request) {
+        var id = rq.getParam("id")?.toIntOrNull()
+
+        if (id == null) {
+            println("수정할 명언의 번호를 입력해주세요.")
+            return
+        }
+
+        val wiseSaying = wiseSayings.find { it.id == id }
+
+        if (wiseSaying == null) {
+            println("${id}번 명언은 존재하지 않습니다.")
+            return
+        }
+
+        println("명언(기존) : ${wiseSaying.saying}")
+        print("명언 : ")
+        val saying = readlnOrNull() ?: ""
+        println("작가(기존) : ${wiseSaying.author}")
+        print("작가 : ")
+        val author = readlnOrNull() ?: ""
+
+        val new = wiseSaying.copy(author = author, saying = saying)
+
+        val index = wiseSayings.indexOfFirst { it.id == id }
+
+        if (index != -1) {
+            wiseSayings[index] = new
+            println("${id}번 명언을 수정했습니다.")
+        } else {
+            println("${id}번 명언은 존재하지 않습니다.")
+            return
+        }
+    }
+
 }
