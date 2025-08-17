@@ -3,12 +3,13 @@ package com
 import com.domain.system.controller.SystemController
 import com.domain.wiseSaying.controller.WiseSayingController
 import com.global.Request
+import com.global.SingletonScope
 
 class App {
 
     fun run() {
-        val wiseSayingController = WiseSayingController()
-        val systemController = SystemController()
+        val wiseSayingController = SingletonScope.wiseSayingController
+        val systemController = SingletonScope.systemController
 
         println("====명언 앱=====")
 

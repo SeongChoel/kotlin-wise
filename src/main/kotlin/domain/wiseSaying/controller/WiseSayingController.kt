@@ -3,10 +3,11 @@ package com.domain.wiseSaying.controller
 import com.domain.wiseSaying.entity.WiseSaying
 import com.domain.wiseSaying.service.WiseSayingService
 import com.global.Request
+import com.global.SingletonScope
 import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle
 
 class WiseSayingController {
-    private val wiseSayingService = WiseSayingService()
+    private val wiseSayingService = SingletonScope.wiseSayingService
 
     fun write() {
         print("명언: ")
