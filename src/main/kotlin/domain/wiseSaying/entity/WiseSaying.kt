@@ -10,4 +10,13 @@ data class WiseSaying(
         return id == 0
     }
 
+    val jsonStr : String
+        get() = """
+            {
+                "id" : $id,
+                "saying" : $saying
+                "author" : $author
+            }
+        """.trimIndent()
+
 }
