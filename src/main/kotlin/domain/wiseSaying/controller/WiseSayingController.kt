@@ -69,7 +69,7 @@ class WiseSayingController {
             val author = readlnOrNull() ?: ""
 
             wiseSayingService.modify(wiseSaying, saying, author)
-            println("${id}번 명언이 수정되었습니다.")
+            println("${id}번 명언을 수정했습니다.")
         } ?: run {
             println("${id}번 명언은 존재하지 않습니다.")
         }
