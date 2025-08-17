@@ -10,8 +10,10 @@ class AppTest {
                 등록
                 인생은 짧고, 예술은 길다.
                 헨리 장
-            """.trimIndent()
+            """
         )
+
+        println(out)
 
         assertThat(out).contains("명언:")
         assertThat(out).contains("작가:")
