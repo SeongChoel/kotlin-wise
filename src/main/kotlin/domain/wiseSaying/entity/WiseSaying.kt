@@ -14,8 +14,8 @@ data class WiseSaying(
         get() = """
             {
                 "id" : $id,
-                "saying" : $saying
-                "author" : $author
+                "saying" : "$saying",
+                "author" : "$author"
             }
         """.trimIndent()
 

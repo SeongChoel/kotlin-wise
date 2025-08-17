@@ -2,6 +2,7 @@ package domain.wiseSaying.repository
 
 import com.domain.wiseSaying.entity.WiseSaying
 import com.global.SingletonScope.wiseSayingRepository
+import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
 class WiseSayingRepositoryTest {
