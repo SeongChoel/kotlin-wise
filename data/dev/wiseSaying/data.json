@@ -1,12 +1,12 @@
 [
-[
-com.standard.JsonUtil$$Lambda/0x00007fe0011c8c68@6b927fb,
-com.standard.JsonUtil$$Lambda/0x00007fe0011c8c68@3e58a80e,
-com.standard.JsonUtil$$Lambda/0x00007fe0011c8c68@4fb61f4a
-],
-[
-com.standard.JsonUtil$$Lambda/0x00007fe0011c8c68@4fb0f2b9,
-com.standard.JsonUtil$$Lambda/0x00007fe0011c8c68@79924b,
-com.standard.JsonUtil$$Lambda/0x00007fe0011c8c68@7b9a4292
-]
+   {
+       "id" : 1,
+       "saying" : "나의 죽음을 적에게 알리지 말라.",
+       "author" : "이순신"
+   },
+   {
+       "id" : 2,
+       "saying" : "천재는 99%의 노력과 1%의 영감이다.",
+       "author" : "에디슨"
+   }
 ]

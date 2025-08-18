@@ -5,27 +5,27 @@ import jdk.internal.org.jline.keymap.KeyMap.key
 
 object JsonUtil {
 
-    fun listToJson(list: List<Map<String, Any>>): String{
+    fun listToJson(list: List<Map<String, Any>>): String {
         return list.joinToString(
             prefix = "[\n", postfix = "\n]", separator = ",\n"
         ) {
-            mapToJson(it)
+            mapToJson(it).prependIndent("   ")
         }
     }
 
     fun mapToJson(map: Map<String, Any>): String {
         return map.entries.joinToString(
-            prefix = "[\n", postfix = "\n]", separator = ",\n"
+            prefix = "{\n", postfix = "\n}", separator = ",\n"
         ) { (key, value) ->
-            {
-                val formattedKey = "\"$key\""
-                val formattedValue = when (value) {
-                    is String -> "\"$value\""
-                    else -> value
-                }
 
-                "    $formattedKey : $formattedValue"
-            }.toString()
+            val formattedKey = "\"$key\""
+            val formattedValue = when (value) {
+                is String -> "\"$value\""
+                else -> value
+            }
+
+            "    $formattedKey : $formattedValue"
+
         }
     }
 
