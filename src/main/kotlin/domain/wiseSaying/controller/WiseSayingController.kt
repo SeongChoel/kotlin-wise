@@ -1,10 +1,7 @@
 package com.domain.wiseSaying.controller
 
-import com.domain.wiseSaying.entity.WiseSaying
-import com.domain.wiseSaying.service.WiseSayingService
 import com.global.Request
 import com.global.SingletonScope
-import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle
 
 class WiseSayingController {
     private val wiseSayingService = SingletonScope.wiseSayingService
@@ -21,8 +18,10 @@ class WiseSayingController {
 
     fun list(rq: Request) {
 
+        val currentPageNo = rq.getParamDefault("page","1").toInt()
         val keyword = rq.getParamDefault("keyword", "")
         val keywordType = rq.getParamDefault("keywordType","saying")
+        val pageSize = 5
 
         if(keyword.isNotBlank()) {
             println("---------------")
@@ -31,17 +30,25 @@ class WiseSayingController {
             println("---------------")
         }
 
-        val wiseSayings = wiseSayingService.findByKeyword(keywordType, keyword)
+        val page = wiseSayingService.findByKeywordPaged(keywordType,keyword,currentPageNo,pageSize)
 
-        if (wiseSayings.count() == 0) {
-            println("등록된 명언이 없습니다.")
+
+        if (page.totalCount == 0) {
         } else {
             println("번호 / 작가 / 명언")
             println("------------------------")
-            for (wiseSaying in wiseSayings.reversed()) {
-                println("${wiseSaying.id} / ${wiseSaying.author} / ${wiseSaying.saying}")
+            for (page in page.content) {
+                println("${page.id} / ${page.author} / ${page.saying}")
             }
         }
+
+
+        val pageMenu = (1 ..page.totalPages).joinToString(" ") {i ->
+            if( i== currentPageNo) "[${i}]" else "$i"
+        }
+
+        println("페이지 : $pageMenu")
+
     }
 
     fun delete(rq: Request) {

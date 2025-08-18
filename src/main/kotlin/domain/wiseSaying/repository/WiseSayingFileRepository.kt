@@ -3,6 +3,7 @@ package com.domain.wiseSaying.repository
 import com.domain.wiseSaying.entity.WiseSaying
 import com.global.AppConfig
 import com.standard.JsonUtil
+import com.standard.Page
 import java.nio.file.Path
 
 class WiseSayingFileRepository : WiseSayingRepository {
@@ -34,6 +35,7 @@ class WiseSayingFileRepository : WiseSayingRepository {
             .listFiles()
             ?.filter { it.extension == "json" }
             ?.map { WiseSaying.fromJson(it.readText()) }
+            ?.sortedByDescending { it.id }
             .orEmpty()
     }
 
@@ -70,6 +72,64 @@ class WiseSayingFileRepository : WiseSayingRepository {
 
         return findAll()
             .filter {it.saying.contains(keyword)}
+    }
+
+    fun findAllPaged(page: Int, pageSize: Int): List<WiseSaying> {
+        return findAll()
+            .drop((page-1)*pageSize)
+            .take(pageSize)
+    }
+
+    override fun findByAuthorLikePaged(
+        keyword: String,
+        page: Int,
+        pageSize: Int
+    ): Page {
+
+        var totalCount = findAll().size
+
+        if (keyword.isBlank()) {
+            return findAllPaged(page, pageSize).let {
+                Page(it, totalCount, page, pageSize)
+            }
+        }
+
+        val searchedWiseSayings = findAll()
+            .filter{ it.author.contains(keyword) }
+
+        totalCount = searchedWiseSayings.size
+
+        val content = searchedWiseSayings
+            .drop((page-1)*pageSize)
+            .take(pageSize)
+
+        return Page(content, totalCount, page, pageSize)
+    }
+
+    override fun findBySayingLikePaged(
+        keyword: String,
+        page: Int,
+        pageSize: Int
+    ): Page {
+
+        var totalCount = findAll().size
+
+        if (keyword.isBlank()) {
+            return findAllPaged(page, pageSize).let{
+                Page(it, totalCount, page, pageSize)
+            }
+        }
+
+        val searchedWiseSayings = findAll()
+            .filter{it.saying.contains(keyword)}
+
+        totalCount = searchedWiseSayings.size
+
+        val content = searchedWiseSayings
+            .drop((page-1)*pageSize)
+            .take(pageSize)
+
+        return Page(content, totalCount, page, pageSize)
     }
 
     fun saveLastId(id: Int) {

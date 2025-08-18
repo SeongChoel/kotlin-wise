@@ -60,7 +60,7 @@ class WiseSayingFileRepositoryTest {
         val count = result.size
 
         assertThat(count).isEqualTo(2)
-        assertThat(result).containsExactly(wiseSaying1, wiseSaying2)
+        assertThat(result).containsExactly(wiseSaying2, wiseSaying1)
     }
 
     @Test
