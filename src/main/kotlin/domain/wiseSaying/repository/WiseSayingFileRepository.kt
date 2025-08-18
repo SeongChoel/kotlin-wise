@@ -6,8 +6,6 @@ import java.nio.file.Path
 
 class WiseSayingFileRepository : WiseSayingRepository {
 
-    private var lastId : Int = 0
-
     init {
         initTable()
     }
@@ -17,15 +15,13 @@ class WiseSayingFileRepository : WiseSayingRepository {
 
     override fun save(wiseSaying: WiseSaying): WiseSaying {
 
-        if (wiseSaying.isNew()) { //추가
-            val new = wiseSaying.copy(id = ++lastId)
-            saveOnDisk(new)
-            return new
+        val target = if(wiseSaying.isNew()) wiseSaying.copy(id = getNextId()) else wiseSaying
+
+        return target.also {
+            saveOnDisk(it)
+            saveLastId(it.id)
         }
 
-        saveOnDisk(wiseSaying)
-
-        return wiseSaying //수정
     }
 
     private fun saveOnDisk(wiseSaying: WiseSaying) {
@@ -45,7 +41,7 @@ class WiseSayingFileRepository : WiseSayingRepository {
     }
 
     override fun clear() {
-        TODO("Not yet implemented")
+        tableDirPath.toFile().deleteRecursively()
     }
 
     fun saveLastId(id : Int) {
@@ -53,8 +49,19 @@ class WiseSayingFileRepository : WiseSayingRepository {
     }
 
     fun loadLastId(): Int {
-        return tableDirPath.resolve("lastId.txt").toFile().readText().toIntOrNull() ?:0
+        tableDirPath.resolve("lastId.txt").toFile().run {
+            if(!exists()) {
+                return 0
+            }
+            return readText().toInt()
+        }
     }
+
+    private fun getNextId(): Int {
+        return loadLastId() + 1
+
+    }
+
 
     fun initTable() {
         tableDirPath.toFile().run {
