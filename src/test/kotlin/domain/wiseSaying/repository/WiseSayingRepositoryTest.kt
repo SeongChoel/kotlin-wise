@@ -1,9 +1,7 @@
 package domain.wiseSaying.repository
 
 import com.domain.wiseSaying.entity.WiseSaying
-import com.domain.wiseSaying.repository.WiseSayingFileRepository
 import com.global.SingletonScope
-import com.global.SingletonScope.wiseSayingRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import kotlin.test.Test

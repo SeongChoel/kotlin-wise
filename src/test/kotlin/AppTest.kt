@@ -8,6 +8,7 @@ class AppTest {
     @BeforeEach
     fun setUp() {
         SingletonScope.wiseSayingRepository.clear()
+        SingletonScope.wiseSayingRepository.initTable()
     }
 
 
