@@ -136,4 +136,20 @@ class AppTest {
             .contains("2 / 작자미상 / 과거에 집착하지 마라.")
     }
 
+    @Test
+    fun `makeSampleData`() {
+        TestBot.makeSampleData(10)
+
+        val out = TestBot.run(
+            """
+                목록
+            """.trimIndent()
+        )
+
+        print(out)
+
+        assertThat(out).contains("1 / ")
+        assertThat(out).contains("10 / ")
+    }
+
 }
