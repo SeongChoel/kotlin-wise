@@ -15,7 +15,7 @@ class WiseSayingFileRepository : WiseSayingRepository {
 
     override fun save(wiseSaying: WiseSaying): WiseSaying {
 
-        val target = if(wiseSaying.isNew()) wiseSaying.copy(id = getNextId()) else wiseSaying
+        val target = if (wiseSaying.isNew()) wiseSaying.copy(id = getNextId()) else wiseSaying
 
         return target.also {
             saveOnDisk(it)
@@ -29,7 +29,11 @@ class WiseSayingFileRepository : WiseSayingRepository {
     }
 
     override fun findAll(): List<WiseSaying> {
-        TODO("Not yet implemented")
+        return tableDirPath.toFile()
+            .listFiles()
+            ?.filter { it.extension == "json" }
+            ?.map { WiseSaying.fromJson(it.readText()) }
+            .orEmpty()
     }
 
     override fun findById(id: Int): WiseSaying {
@@ -44,13 +48,13 @@ class WiseSayingFileRepository : WiseSayingRepository {
         tableDirPath.toFile().deleteRecursively()
     }
 
-    fun saveLastId(id : Int) {
+    fun saveLastId(id: Int) {
         tableDirPath.resolve("lastId.txt").toFile().writeText(id.toString())
     }
 
     fun loadLastId(): Int {
         tableDirPath.resolve("lastId.txt").toFile().run {
-            if(!exists()) {
+            if (!exists()) {
                 return 0
             }
             return readText().toInt()
@@ -65,7 +69,7 @@ class WiseSayingFileRepository : WiseSayingRepository {
 
     fun initTable() {
         tableDirPath.toFile().run {
-            if(!exists()) {
+            if (!exists()) {
                 mkdirs()
             }
         }
