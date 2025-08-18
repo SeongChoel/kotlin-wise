@@ -78,4 +78,10 @@ class WiseSayingFileRepository : WiseSayingRepository {
             }
         }
     }
+
+    fun build() {
+        findAll().map {
+
+        }
+    }
 }
