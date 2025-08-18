@@ -29,4 +29,8 @@ class Request(
         return paramMap[key]
     }
 
+    fun getParamDefault(key: String, default: String): String {
+        return paramMap[key] ?: default
+    }
+
 }

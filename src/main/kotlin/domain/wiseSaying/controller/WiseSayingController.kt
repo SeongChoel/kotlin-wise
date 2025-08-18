@@ -19,13 +19,25 @@ class WiseSayingController {
         println("${wiseSaying.id}번 명언이 등록되었습니다.")
     }
 
-    fun list() {
-        val wiseSayings = wiseSayingService.getItems()
+    fun list(rq: Request) {
+
+        val keyword = rq.getParamDefault("keyword", "")
+        val keywordType = rq.getParamDefault("keywordType","saying")
+
+        if(keyword.isNotBlank()) {
+            println("---------------")
+            println("검색타입 : $keywordType")
+            println("검색어 : $keyword")
+            println("---------------")
+        }
+
+        val wiseSayings = wiseSayingService.findByKeyword(keywordType, keyword)
 
         if (wiseSayings.count() == 0) {
             println("등록된 명언이 없습니다.")
         } else {
             println("번호 / 작가 / 명언")
+            println("------------------------")
             for (wiseSaying in wiseSayings.reversed()) {
                 println("${wiseSaying.id} / ${wiseSaying.author} / ${wiseSaying.saying}")
             }
