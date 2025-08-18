@@ -5,15 +5,15 @@ import jdk.internal.org.jline.keymap.KeyMap.key
 
 object JsonUtil {
 
-    fun listToJson(list: List<Map<String, String>>) {
-        list.joinToString(
+    fun listToJson(list: List<Map<String, Any>>): String{
+        return list.joinToString(
             prefix = "[\n", postfix = "\n]", separator = ",\n"
         ) {
             mapToJson(it)
         }
     }
 
-    fun mapToJson(map: Map<String, String>): String {
+    fun mapToJson(map: Map<String, Any>): String {
         return map.entries.joinToString(
             prefix = "[\n", postfix = "\n]", separator = ",\n"
         ) { (key, value) ->

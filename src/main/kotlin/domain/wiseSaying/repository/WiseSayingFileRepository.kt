@@ -2,6 +2,7 @@ package com.domain.wiseSaying.repository
 
 import com.domain.wiseSaying.entity.WiseSaying
 import com.global.AppConfig
+import com.standard.JsonUtil
 import java.nio.file.Path
 
 class WiseSayingFileRepository : WiseSayingRepository {
@@ -80,8 +81,14 @@ class WiseSayingFileRepository : WiseSayingRepository {
     }
 
     fun build() {
-        findAll().map {
-
+        val mapList = findAll().map {
+            it.map
         }
+
+        JsonUtil.listToJson(mapList). also {
+            tableDirPath.toFile().writeText(it)
+        }
+
+
     }
 }

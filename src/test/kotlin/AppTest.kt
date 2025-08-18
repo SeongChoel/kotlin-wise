@@ -91,4 +91,22 @@ class AppTest {
         assertThat(result).contains("1 / 이순신 장군 / 나의 죽음을 적들에게 알리지 말라. 그리고 적들에게 나의 삶을 알리라.")
 
     }
+
+    @Test
+    fun `빌드`() {
+        val result = TestBot.run(
+            """
+                등록
+                나의 죽음을 적에게 알리지 말라.
+                이순신
+                등록
+                천재는 99%의 노력과 1%의 영감이다.
+                에디슨
+                빌드
+            """.trimIndent()
+        )
+
+        assertThat(result)
+            .contains("data.json 파일의 내용이 갱신되었습니다.")
+    }
 }
