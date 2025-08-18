@@ -67,12 +67,21 @@ class WiseSayingFileRepositoryTest {
 
     @Test
     fun `findById`() {
-        val wiseSaying = wiseSayingRepository
+        val wiseSaying = wiseSayingFileRepository
             .save(WiseSaying(saying = "나의 죽음을 적들에게 알리지 말라.", author = "충무공 이순신"))
 
-        val foundWiseSaying = wiseSayingRepository.findById(wiseSaying.id)
+        val foundWiseSaying = wiseSayingFileRepository.findById(wiseSaying.id)
 
         assertThat(foundWiseSaying).isEqualTo(wiseSaying)
+    }
+
+    @Test
+    fun `delete`() {
+        val wiseSaying = wiseSayingFileRepository
+            .save(WiseSaying(saying = "나의 죽음을 적에게 알리지 말라.", author ="충무공 이순신"))
+
+        wiseSayingFileRepository.delete(wiseSaying)
+        assertThat(wiseSayingFileRepository.findById(wiseSaying.id)).isNull()
     }
 
 
