@@ -18,19 +18,19 @@ class WiseSayingController {
 
     fun list(rq: Request) {
 
-        val currentPageNo = rq.getParamDefault("page","1").toInt()
+        val currentPageNo = rq.getParamDefault("page", "1").toInt()
         val keyword = rq.getParamDefault("keyword", "")
-        val keywordType = rq.getParamDefault("keywordType","saying")
+        val keywordType = rq.getParamDefault("keywordType", "saying")
         val pageSize = 5
 
-        if(keyword.isNotBlank()) {
+        if (keyword.isNotBlank()) {
             println("---------------")
             println("검색타입 : $keywordType")
             println("검색어 : $keyword")
             println("---------------")
         }
 
-        val page = wiseSayingService.findByKeywordPaged(keywordType,keyword,currentPageNo,pageSize)
+        val page = wiseSayingService.findByKeywordPaged(keywordType, keyword, currentPageNo, pageSize)
 
 
         if (page.totalCount == 0) {
@@ -43,8 +43,8 @@ class WiseSayingController {
         }
 
 
-        val pageMenu = (1 ..page.totalPages).joinToString(" ") {i ->
-            if( i== currentPageNo) "[${i}]" else "$i"
+        val pageMenu = (1..page.totalPages).joinToString(" ") { i ->
+            if (i == currentPageNo) "[${i}]" else "$i"
         }
 
         println("페이지 : $pageMenu")

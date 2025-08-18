@@ -30,7 +30,7 @@ class Request(
     }
 
     fun getParamDefault(key: String, default: String): String {
-        return paramMap[key] ?: default
+        return paramMap[key]?.ifBlank { default } ?: default
     }
 
 }
